@@ -1,2 +1,4 @@
 # password_finder
-Finds the password of a mock MongoDB server (setup for an online course about Cybersecurity). 
+Brute force attack by exploiting a vulnerability in a mock webapp (online course about Cybersecurity).
+The password is retrieved char by char, trying all the possible combinations by sequentially sampling from a list of chars.  
+
