@@ -1,12 +1,13 @@
 '''Functions to support the main program'''
 
+import requests
 def get_match(url):
     """Query the server with a given url. If the response contains the word admin twice"""
-    import requests
+
     response = requests.get(url)
     position_of_first_ocurrent_of_admin = 1355
     upper_limit = 50000
-    return response.text.find('admin', position_of_first_ocurrent_of_admin ,upper_limit)
+    return response.text.find('admin', position_of_first_ocurrent_of_admin, upper_limit)
 
 
 def loop_and_return_password_if_match(url, password):
@@ -30,13 +31,11 @@ def retrieve_password():
 
     # In its canonical textual representation, the 16 octets of a UUID are represented as
     # # 32 hexadecimal (base-16) digits,
-    # displayed in five groups separated by hyphens, in the form 8-4-4-4-12 for a total of 36 characters
-    # (32 hexadecimal characters and 4 hyphens).
+    # displayed in five groups separated by hyphens, in the form 8-4-4-4-12
+    # for a total of 36 characters (32 hexadecimal characters and 4 hyphens).
     # source: https://en.wikipedia.org/wiki/Universally_unique_identifier
 
     pass_length = 36
 
     while len(password) < pass_length:
         password = loop_and_return_password_if_match(url, password)
-
-
